@@ -4,6 +4,7 @@
 #import "RNNotifications.h"
 #import "RNNotificationCenterListener.h"
 #import "RNPushKit.h"
+#import "RNNotificationCenterMulticast.h"
 
 @implementation RNNotifications {
     RNPushKit* _pushKit;
@@ -58,6 +59,10 @@
 
 + (void)removeNativeDelegate:(id<UNUserNotificationCenterDelegate>)delegate {
     [[self sharedInstance] removeNativeDelegate:delegate];
+}
+
+- (RNNotificationCenterMulticast*)multicast {
+    return _notificationCenterMulticast;
 }
 
 - (void)startMonitorNotifications {
