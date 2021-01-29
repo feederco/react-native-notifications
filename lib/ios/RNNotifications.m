@@ -4,7 +4,6 @@
 #import "RNNotifications.h"
 #import "RNNotificationCenterListener.h"
 #import "RNPushKit.h"
-#import "RNNotificationCenterMulticast.h"
 
 @implementation RNNotifications {
     RNPushKit* _pushKit;
@@ -12,7 +11,7 @@
     RNNotificationEventHandler* _notificationEventHandler;
     RNNotificationsStore* _store;
     RNPushKitEventHandler* _pushKitEventHandler;
-    RNEventEmitter* _eventEmitter;
+    RNNotificationsEventEmitter* _eventEmitter;
     RNNotificationCenterMulticast* _notificationCenterMulticast;
 }
 
