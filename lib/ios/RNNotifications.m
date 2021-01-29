@@ -4,6 +4,7 @@
 #import "RNNotifications.h"
 #import "RNNotificationCenterListener.h"
 #import "RNPushKit.h"
+#import "RNNotificationCenterMulticast.h"
 
 @implementation RNNotifications {
     RNPushKit* _pushKit;
