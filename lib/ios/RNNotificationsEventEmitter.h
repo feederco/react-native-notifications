@@ -11,7 +11,7 @@ static NSString* const RNPushKitNotificationReceived = @"pushKitNotificationRece
 static NSString* const RNAppNotificationSettingsLinked = @"appNotificationSettingsLinked";
 
 
-@interface RNEventEmitter : RCTEventEmitter <RCTBridgeModule>
+@interface RNNotificationsEventEmitter : RCTEventEmitter <RCTBridgeModule>
 
 + (void)sendEvent:(NSString *)event body:(NSDictionary *)body;
 

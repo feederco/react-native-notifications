@@ -1,6 +1,6 @@
-#import "RNEventEmitter.h"
+#import "RNNotificationsEventEmitter.h"
 
-@implementation RNEventEmitter
+@implementation RNNotificationsEventEmitter
 
 RCT_EXPORT_MODULE();
 
@@ -54,6 +54,7 @@ RCT_EXPORT_MODULE();
 - (void)handleNotification:(NSNotification *)notification {
     [self sendEventWithName:notification.name body:notification.userInfo];
 }
+
 
 
 @end
