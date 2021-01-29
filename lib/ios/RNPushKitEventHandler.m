@@ -1,5 +1,5 @@
 #import "RNPushKitEventHandler.h"
-#import "RNEventEmitter.h"
+#import "RNNotificationsEventEmitter.h"
 
 @implementation RNPushKitEventHandler {
   RNNotificationsStore* _store;
@@ -12,7 +12,7 @@
 }
 
 - (void)registeredWithToken:(NSString *)token {
-    [RNEventEmitter sendEvent:RNPushKitRegistered body:@{@"pushKitToken": token}];
+    [RNNotificationsEventEmitter sendEvent:RNPushKitRegistered body:@{@"pushKitToken": token}];
 }
 
 - (void)didReceiveIncomingPushWithPayload:(NSDictionary *)payload withCompletionHandler:(void (^)(void))completionHandler {
@@ -22,7 +22,7 @@
   notification[@"identifier"] = identifier;
 
   [_store setActionCompletionHandler:completionHandler withCompletionKey:identifier];
-  [RNEventEmitter sendEvent:RNPushKitNotificationReceived body:payload];
+  [RNNotificationsEventEmitter sendEvent:RNPushKitNotificationReceived body:payload];
 }
 
 @end

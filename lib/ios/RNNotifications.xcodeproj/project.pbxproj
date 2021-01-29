@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03B0B79C25C45EC70058DC34 /* RNNotificationsEventEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 03B0B79A25C45EC70058DC34 /* RNNotificationsEventEmitter.h */; };
+		03B0B79D25C45EC70058DC34 /* RNNotificationsEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 03B0B79B25C45EC70058DC34 /* RNNotificationsEventEmitter.m */; };
 		50002A4D22E88266008F6742 /* RNCommandsHandlerIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50002A4C22E88266008F6742 /* RNCommandsHandlerIntegrationTest.m */; };
 		50002A8022E8885A008F6742 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50002A7F22E8885A008F6742 /* libOCMock.a */; };
 		50002AC822E9D5EA008F6742 /* RNNotificationsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50002AC722E9D5EA008F6742 /* RNNotificationsStoreTests.m */; };
@@ -83,6 +85,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03B0B79A25C45EC70058DC34 /* RNNotificationsEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNotificationsEventEmitter.h; sourceTree = "<group>"; };
+		03B0B79B25C45EC70058DC34 /* RNNotificationsEventEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNotificationsEventEmitter.m; sourceTree = "<group>"; };
 		134814201AA4EA6300B7C361 /* libRNNotifications.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNNotifications.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		50002A4C22E88266008F6742 /* RNCommandsHandlerIntegrationTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCommandsHandlerIntegrationTest.m; sourceTree = "<group>"; };
 		50002A7F22E8885A008F6742 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 				508CE82122D1372E00357815 /* RNNotificationUtils.m */,
 				50351F9322CD7FF1000713B3 /* RCTConvert+RNNotifications.h */,
 				50351F9422CD7FF1000713B3 /* RCTConvert+RNNotifications.m */,
+				03B0B79A25C45EC70058DC34 /* RNNotificationsEventEmitter.h */,
+				03B0B79B25C45EC70058DC34 /* RNNotificationsEventEmitter.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -345,6 +351,7 @@
 				50E49F0722D1E4E0007160C1 /* RNNotificationsStore.h in Headers */,
 				508CE81622D12FF600357815 /* RNNotificationCenterListener.h in Headers */,
 				507DCCF922CE3F04005D4E0B /* RNNotifications.h in Headers */,
+				03B0B79C25C45EC70058DC34 /* RNNotificationsEventEmitter.h in Headers */,
 				508CE82222D1372E00357815 /* RNNotificationUtils.h in Headers */,
 				50FED76E22D3EBA800DDD516 /* RNNotificationParser.h in Headers */,
 				507DCCFA22CE3F04005D4E0B /* RNEventEmitter.h in Headers */,
@@ -471,6 +478,7 @@
 				508CE82322D1372E00357815 /* RNNotificationUtils.m in Sources */,
 				50351F9522CD7FF1000713B3 /* RCTConvert+RNNotifications.m in Sources */,
 				50AD1FCB22D13ADB00E12362 /* RNPushKitEventHandler.m in Sources */,
+				03B0B79D25C45EC70058DC34 /* RNNotificationsEventEmitter.m in Sources */,
 				508CE81422D12FC700357815 /* RNNotificationCenterListener.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
