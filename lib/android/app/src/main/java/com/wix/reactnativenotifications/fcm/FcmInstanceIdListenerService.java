@@ -9,6 +9,9 @@ import com.wix.reactnativenotifications.BuildConfig;
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
 
+import java.util.Map;
+import io.intercom.android.sdk.push.IntercomPushClient;
+
 import static com.wix.reactnativenotifications.Defs.LOGTAG;
 
 /**
@@ -17,11 +20,18 @@ import static com.wix.reactnativenotifications.Defs.LOGTAG;
  * @author amitd
  */
 public class FcmInstanceIdListenerService extends FirebaseMessagingService {
+    private final IntercomPushClient intercomPushClient = new IntercomPushClient();
 
     @Override
     public void onMessageReceived(RemoteMessage message){
         Bundle bundle = message.toIntent().getExtras();
         if(BuildConfig.DEBUG) Log.d(LOGTAG, "New message from FCM: " + bundle);
+
+        Map<String, String> mess = message.getData();
+        if (intercomPushClient.isIntercomPush(mess)) {
+          intercomPushClient.handlePush(getApplication(), mess);
+          return;
+        }
 
         try {
             final IPushNotification notification = PushNotification.get(getApplicationContext(), bundle);
