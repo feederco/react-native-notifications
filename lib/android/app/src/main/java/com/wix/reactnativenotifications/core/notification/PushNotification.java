@@ -178,14 +178,6 @@ public class PushNotification implements IPushNotification {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            if (soundUri != null) {
-                channel.setSound(soundUri, makeAudioAttributes());
-            }
-
             final NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             String channelId = mNotificationProps.getChannelId();
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
