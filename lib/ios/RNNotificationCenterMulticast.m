@@ -1,5 +1,5 @@
 #import "RNNotificationCenterMulticast.h"
-#import "RNEventEmitter.h"
+#import "RNNotificationsEventEmitter.h"
 
 @implementation RNNotificationCenterMulticast {
   NSHashTable *delegates;
@@ -82,7 +82,7 @@
     }
   }
   dispatch_async(dispatch_get_main_queue(), ^{
-    [RNEventEmitter sendEvent:RNAppNotificationSettingsLinked body:@{}];
+    [RNNotificationsEventEmitter sendEvent:RNAppNotificationSettingsLinked body:@{}];
   });
 }
 
