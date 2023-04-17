@@ -43,8 +43,6 @@ public class PushNotification implements IPushNotification {
         public void onAppNotVisible() {
         }
     };
-    final private String DEFAULT_CHANNEL_ID = "channel_01";
-    final private String DEFAULT_CHANNEL_NAME = "Channel Name";
 
     public static IPushNotification get(Context context, Bundle bundle) {
         Context appContext = context.getApplicationContext();
@@ -66,7 +64,7 @@ public class PushNotification implements IPushNotification {
     @Override
     public void onReceived() throws InvalidNotificationException {
         postNotification(null);
-        
+
         if (!mAppLifecycleFacade.isAppVisible()) {
             notifyReceivedBackgroundToJS();
         } else {
@@ -147,20 +145,24 @@ public class PushNotification implements IPushNotification {
         return getNotificationBuilder(intent).build();
     }
 
-    protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
-
-        String CHANNEL_ID = "channel_01";
-        String CHANNEL_NAME = "Channel Name";
-
+    protected String getChannelID() {
         String userChannelID = getAppResourceString("notification_channel_id", "string");
-        String userChannelName = getAppResourceString("notification_channel_name", "string");
-        if (userChannelID != null) {
-            CHANNEL_ID = userChannelID;
-        }
-        if (userChannelName != null) {
-            CHANNEL_NAME = userChannelName;
-        }
 
+        if (userChannelID != null) {
+            return userChannelID;
+        }
+        return "channel_01";
+    }
+
+    protected String getChannelName() {
+        String userChannelName = getAppResourceString("notification_channel_name", "string");
+        if (userChannelName != null) {
+            return userChannelName;
+        }
+        return "Channel Name";
+    }
+
+    protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
         final Notification.Builder notification = new Notification.Builder(mContext)
                 .setContentTitle(mNotificationProps.getTitle())
                 .setContentText(mNotificationProps.getBody())
@@ -181,7 +183,7 @@ public class PushNotification implements IPushNotification {
             final NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             String channelId = mNotificationProps.getChannelId();
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
-            notification.setChannelId(channel != null ? channelId : DEFAULT_CHANNEL_ID);
+            notification.setChannelId(channel != null ? channelId : getChannelID());
         }
 
         return notification;
@@ -259,8 +261,8 @@ public class PushNotification implements IPushNotification {
             final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager.getNotificationChannels().size() == 0) {
                 NotificationChannel defaultChannel = new NotificationChannel(
-                    DEFAULT_CHANNEL_ID,
-                    DEFAULT_CHANNEL_NAME,
+                    getChannelID(),
+                    getChannelName(),
                     NotificationManager.IMPORTANCE_DEFAULT
                 );
                 notificationManager.createNotificationChannel(defaultChannel);
