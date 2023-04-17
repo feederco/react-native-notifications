@@ -141,7 +141,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:$kotlinStdlib:$kotlinVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
     implementation 'com.facebook.react:react-native:+'
-    implementation 'io.intercom.android:intercom-sdk:7.2.0'
+    implementation 'io.intercom.android:intercom-sdk:14.2.0'
 
     // tests
     testImplementation 'junit:junit:4.12'
