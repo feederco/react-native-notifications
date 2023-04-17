@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "lodash",
+      "react",
+      "react-native"
+    ]
+  },
+  "exclude": [
+    "./lib/src/**/*.spec.ts",
+    "./lib/src/**/*.test.ts"
+  ]
+}
