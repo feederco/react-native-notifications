@@ -29,6 +29,8 @@ public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.
 
     private final Application mApplication;
 
+    private boolean openedNotifications = false;
+
     public RNNotificationsPackage(Application application) {
         mApplication = application;
         FirebaseApp.initializeApp(application.getApplicationContext());
@@ -74,18 +76,25 @@ public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.
 
     @Override
     public void onActivityStarted(Activity activity) {
+
     }
+
 
     @Override
     public void onActivityResumed(Activity activity) {
+      if (openedNotifications) {
+        return;
+      }
+
         final IPushNotificationsDrawer notificationsDrawer = PushNotificationsDrawer.get(mApplication.getApplicationContext());
         notificationsDrawer.onNewActivity(activity);
-    
+
         Intent intent = activity.getIntent();
         if (NotificationIntentAdapter.canHandleIntent(intent)) {
           Bundle notificationData = intent.getExtras();
           final IPushNotification pushNotification = PushNotification.get(mApplication.getApplicationContext(), notificationData);
           if (pushNotification != null) {
+            openedNotifications = true;
             pushNotification.onOpened();
           }
         }
