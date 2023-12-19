@@ -38,7 +38,7 @@
     "xcode": "open example/ios/NotificationsExampleApp.xcworkspace",
     "studio": "open -a /Applications/Android\\ Studio.app ./example/android",
     "prerelease": "npm run build",
-    "postinstall": "$(npm bin)/tsc --project tsconfig-local-install.json",
+    "postinstall": "npm exec tsc --project tsconfig-local-install.json",
     "release": "node ./scripts/release",
     "generate-changelog": "gren changelog",
     "docusaurus": "npm start --prefix website",
