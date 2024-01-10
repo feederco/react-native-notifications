@@ -21,6 +21,19 @@ public class NotificationIntentAdapter {
         }
     }
 
+    public static boolean canHandleTrampolineActivity(Context appContext) {
+        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R || appContext.getApplicationInfo().targetSdkVersion < 31;
+    }
+
+    public static Bundle extractPendingNotificationDataFromIntent(Intent intent) {
+        Bundle notificationBundle = intent.getBundleExtra(PUSH_NOTIFICATION_EXTRA_NAME);
+        if (notificationBundle != null) {
+            return notificationBundle;
+        } else {
+            return intent.getExtras();
+        }
+    }
+
     public static boolean canHandleIntent(Intent intent) {
         if (intent != null) {
             Bundle notificationData = intent.getExtras();

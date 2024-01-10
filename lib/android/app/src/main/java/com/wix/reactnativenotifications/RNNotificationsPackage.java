@@ -115,4 +115,19 @@ public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.
     @Override
     public void onActivityDestroyed(Activity activity) {
     }
+
+    private void callOnOpenedIfNeed(Activity activity) {
+        Intent intent = activity.getIntent();
+        if (NotificationIntentAdapter.canHandleIntent(intent)) {
+            Context appContext = mApplication.getApplicationContext();
+            Bundle notificationData = NotificationIntentAdapter.extractPendingNotificationDataFromIntent(intent);
+            final IPushNotification pushNotification = PushNotification.get(appContext, notificationData);
+            if (pushNotification != null) {
+                pushNotification.onOpened();
+                // Erase notification intent after using it, to avoid looping with the same notification
+                // in case the app is moved to background and opened again
+                activity.setIntent(new Intent());
+            }
+        }
+    }
 }
