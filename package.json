@@ -38,7 +38,7 @@
     "xcode": "open example/ios/NotificationsExampleApp.xcworkspace",
     "studio": "open -a /Applications/Android\\ Studio.app ./example/android",
     "prerelease": "npm run build",
-    "postinstall": "npm exec -- tsc --project tsconfig-local-install.json",
+    "postinstall": "tsc --project tsconfig-local-install.json",
     "release": "node ./scripts/release",
     "generate-changelog": "gren changelog",
     "docusaurus": "npm start --prefix website",
@@ -70,8 +70,7 @@
     "react-native": "^0.68.1",
     "shell-utils": "1.0.10",
     "ts-mockito": "2.5.0",
-    "tslint": "6.1.3",
-    "typescript": "^4.0.0"
+    "tslint": "6.1.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
