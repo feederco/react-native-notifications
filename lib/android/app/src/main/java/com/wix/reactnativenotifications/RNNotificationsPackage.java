@@ -13,11 +13,9 @@ import com.facebook.react.uimanager.ViewManager;
 import com.google.firebase.FirebaseApp;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.AppLifecycleFacadeHolder;
-import com.wix.reactnativenotifications.core.InitialNotificationHolder;
 import com.wix.reactnativenotifications.core.NotificationIntentAdapter;
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
-import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
 import com.wix.reactnativenotifications.core.notificationdrawer.IPushNotificationsDrawer;
 import com.wix.reactnativenotifications.core.notificationdrawer.PushNotificationsDrawer;
 
@@ -28,8 +26,6 @@ import java.util.List;
 public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.AppVisibilityListener, Application.ActivityLifecycleCallbacks {
 
     private final Application mApplication;
-
-    private boolean openedNotifications = false;
 
     public RNNotificationsPackage(Application application) {
         mApplication = application;
@@ -63,40 +59,28 @@ public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         final IPushNotificationsDrawer notificationsDrawer = PushNotificationsDrawer.get(mApplication.getApplicationContext());
         notificationsDrawer.onNewActivity(activity);
-
-        Intent intent = activity.getIntent();
-        if (NotificationIntentAdapter.canHandleIntent(intent)) {
-            Bundle notificationData = intent.getExtras();
-            final IPushNotification pushNotification = PushNotification.get(mApplication.getApplicationContext(), notificationData);
-            if (pushNotification != null) {
-                pushNotification.onOpened();
-            }
-        }
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-
     }
-
 
     @Override
     public void onActivityResumed(Activity activity) {
-      if (openedNotifications) {
-        return;
-      }
-
         final IPushNotificationsDrawer notificationsDrawer = PushNotificationsDrawer.get(mApplication.getApplicationContext());
         notificationsDrawer.onNewActivity(activity);
 
         Intent intent = activity.getIntent();
         if (NotificationIntentAdapter.canHandleIntent(intent)) {
-          Bundle notificationData = intent.getExtras();
-          final IPushNotification pushNotification = PushNotification.get(mApplication.getApplicationContext(), notificationData);
-          if (pushNotification != null) {
-            openedNotifications = true;
-            pushNotification.onOpened();
-          }
+            Context appContext = mApplication.getApplicationContext();
+            Bundle notificationData = NotificationIntentAdapter.extractPendingNotificationDataFromIntent(intent);
+            final IPushNotification pushNotification = PushNotification.get(appContext, notificationData);
+            if (pushNotification != null) {
+                pushNotification.onOpened();
+                // Clear the notification intent after handling to prevent duplicate processing
+                // when the app goes to background and returns
+                activity.setIntent(new Intent());
+            }
         }
     }
 
@@ -114,20 +98,5 @@ public class RNNotificationsPackage implements ReactPackage, AppLifecycleFacade.
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-    }
-
-    private void callOnOpenedIfNeed(Activity activity) {
-        Intent intent = activity.getIntent();
-        if (NotificationIntentAdapter.canHandleIntent(intent)) {
-            Context appContext = mApplication.getApplicationContext();
-            Bundle notificationData = NotificationIntentAdapter.extractPendingNotificationDataFromIntent(intent);
-            final IPushNotification pushNotification = PushNotification.get(appContext, notificationData);
-            if (pushNotification != null) {
-                pushNotification.onOpened();
-                // Erase notification intent after using it, to avoid looping with the same notification
-                // in case the app is moved to background and opened again
-                activity.setIntent(new Intent());
-            }
-        }
     }
 }
