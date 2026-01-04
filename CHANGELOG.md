@@ -1,4 +1,37 @@
 # Changelog
+
+# Unreleased
+
+## Fixed
+### Android
+* **Fixed FCM token refresh not being handled** - Added missing `onNewToken()` handler to `FcmInstanceIdListenerService`. Previously, when FCM automatically refreshed a device's push token (which can happen after extended inactivity, security updates, or OS updates), the app would not be notified of the new token. This caused push notifications to silently stop working for affected users because the backend was still sending to the old, invalid token.
+
+## Added
+### Android
+* **Added `isRefresh` property to token registration event** - The `Registered` event now includes an `isRefresh` boolean property (Android only) that indicates whether the token was received due to an FCM-initiated refresh (`true`) or from app initialization/manual refresh (`false`). This allows your backend to distinguish between initial registrations and token refreshes for analytics or debugging purposes.
+
+  **Important for client apps:** Ensure you register the `remoteNotificationsRegistered` event listener early in your app lifecycle (ideally in your root component constructor or `useEffect`). This listener will now be called whenever FCM refreshes the token, not just on initial registration. Your app should sync the new token to your backend each time this event fires.
+
+  ```jsx
+  // In your root component
+  useEffect(() => {
+    const subscription = Notifications.events().registerRemoteNotificationsRegistered((event) => {
+      console.log("Device Token Received", event.deviceToken);
+      
+      if (event.isRefresh) {
+        console.log("This is an FCM-initiated token refresh - old token is now invalid");
+      }
+      
+      // Always sync the token to your backend
+      syncTokenToBackend(event.deviceToken, { isRefresh: event.isRefresh });
+    });
+    
+    Notifications.registerRemoteNotifications();
+    
+    return () => subscription.remove();
+  }, []);
+  ```
+
 # 2.1.0
 ## Added
 * react-native 0.60 Support

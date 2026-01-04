@@ -20,6 +20,10 @@ public class FcmToken implements IFcmToken {
     final protected JsIOHelper mJsIOHelper;
 
     protected static String sToken;
+    
+    // Tracks whether the current token event is from an FCM-initiated refresh
+    // (as opposed to app init or manual refresh)
+    protected boolean mIsTokenRefresh = false;
 
     protected FcmToken(Context appContext) {
         if (!(appContext instanceof ReactApplication)) {
@@ -40,6 +44,8 @@ public class FcmToken implements IFcmToken {
     @Override
     public void onNewTokenReady() {
         synchronized (mAppContext) {
+            // This is called when FCM has refreshed the token automatically
+            mIsTokenRefresh = true;
             refreshToken();
         }
     }
@@ -47,6 +53,8 @@ public class FcmToken implements IFcmToken {
     @Override
     public void onManualRefresh() {
         synchronized (mAppContext) {
+            // Manual refresh is user-initiated, not an FCM-triggered refresh
+            mIsTokenRefresh = false;
             if (sToken == null) {
                 if(BuildConfig.DEBUG) Log.i(LOGTAG, "Manual token refresh => asking for new token");
                 refreshToken();
@@ -60,6 +68,8 @@ public class FcmToken implements IFcmToken {
     @Override
     public void onAppReady() {
         synchronized (mAppContext) {
+            // App initialization is not considered a refresh
+            mIsTokenRefresh = false;
             if (sToken == null) {
                 if(BuildConfig.DEBUG) Log.i(LOGTAG, "App initialized => asking for new token");
                 refreshToken();
@@ -99,8 +109,13 @@ public class FcmToken implements IFcmToken {
         if (reactContext != null && reactContext.hasActiveReactInstance()) {
             Bundle tokenMap = new Bundle();
             tokenMap.putString("deviceToken", sToken);
+            // Indicates whether this token was received due to an FCM-initiated refresh
+            // (true) or from app initialization/manual refresh (false)
+            tokenMap.putBoolean("isRefresh", mIsTokenRefresh);
             mJsIOHelper.sendEventToJS(TOKEN_RECEIVED_EVENT_NAME, tokenMap, reactContext);
         }
+        // Reset the refresh flag after sending
+        mIsTokenRefresh = false;
     }
 
 }
