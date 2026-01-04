@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.wix.reactnativenotifications.BuildConfig;
@@ -98,13 +97,9 @@ public class FcmToken implements IFcmToken {
     }
 
     protected void sendTokenToJS() {
-        final ReactInstanceManager instanceManager = ((ReactApplication) mAppContext).getReactNativeHost().getReactInstanceManager();
-        ReactContext reactContext = instanceManager.getCurrentReactContext();
+        ReactApplication reactApplication = (ReactApplication) mAppContext;
+        ReactContext reactContext = reactApplication.getReactHost().getCurrentReactContext();
 
-        if (reactContext == null) {
-            // If the react context is not available, try to get the current context from the react host (RN0.76).
-            reactContext = ((ReactApplication) mAppContext).getReactHost().getCurrentReactContext();
-        }
         // Note: Cannot assume react-context exists cause this is an async dispatched service.
         if (reactContext != null && reactContext.hasActiveReactInstance()) {
             Bundle tokenMap = new Bundle();
