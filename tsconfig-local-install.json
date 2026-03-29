@@ -1,6 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "./lib/src",
+    "ignoreDeprecations": "6.0",
     "types": [
       "lodash",
       "react",
