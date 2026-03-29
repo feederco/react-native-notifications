@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./lib/src",
-    "ignoreDeprecations": "6.0",
+    "allowSyntheticDefaultImports": true,
     "types": [
       "lodash",
       "react",
@@ -14,3 +14,4 @@
     "./lib/src/**/*.test.ts"
   ]
 }
+
