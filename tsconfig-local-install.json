@@ -2,11 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./lib/src",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "customConditions": ["react-native", "react-native-legacy-deep-imports"],
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "types": [
       "lodash",
-      "react",
-      "react-native"
+      "react"
     ]
   },
   "exclude": [
@@ -14,4 +17,3 @@
     "./lib/src/**/*.test.ts"
   ]
 }
-
