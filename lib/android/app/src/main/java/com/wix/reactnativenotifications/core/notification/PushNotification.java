@@ -151,6 +151,8 @@ public class PushNotification implements IPushNotification {
         final Notification.Builder notification = new Notification.Builder(mContext)
                 .setContentTitle(mNotificationProps.getTitle())
                 .setContentText(mNotificationProps.getBody())
+                // Content text alone stays one line even when expanded; the big text style shows the whole body.
+                .setStyle(new Notification.BigTextStyle().bigText(mNotificationProps.getBody()))
                 .setContentIntent(intent)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
